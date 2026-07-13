@@ -3,7 +3,7 @@ package com.well.tech.task.manager.dto.request;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-public record CreateUserRequest(
+public record UserRequest(
 
         @NotBlank
         String name,
