@@ -1,0 +1,19 @@
+package com.well.tech.task.manager.repository;
+
+import aj.org.objectweb.asm.commons.Remapper;
+import com.well.tech.task.manager.entity.RefreshToken;
+import com.well.tech.task.manager.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+import java.util.UUID;
+
+public interface RefreshTokenRepository
+        extends JpaRepository<RefreshToken, UUID> {
+
+    Optional<RefreshToken> findByToken(String token);
+
+    void deleteByUser(User user);
+
+    Optional<RefreshToken> findByUser(User user);
+}

@@ -1,7 +1,9 @@
 package com.well.tech.task.manager.controller;
 
 import com.well.tech.task.manager.dto.request.LoginRequest;
+import com.well.tech.task.manager.dto.request.RefreshTokenRequest;
 import com.well.tech.task.manager.dto.response.LoginResponse;
+import com.well.tech.task.manager.dto.response.RefreshTokenResponse;
 import com.well.tech.task.manager.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,15 @@ public class AuthController {
 
         return ResponseEntity.ok(
                 service.login(request)
+        );
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<RefreshTokenResponse> refresh(
+            @RequestBody RefreshTokenRequest request
+    ) {
+        return ResponseEntity.ok(
+                service.refreshToken(request)
         );
     }
 }
