@@ -1,4 +1,4 @@
-package com.well.tech.task.manager.mapper;
+package com.well.tech.task.manager.mapper.task;
 
 import com.well.tech.task.manager.common.enums.TaskStatus;
 import com.well.tech.task.manager.dto.request.task.CreateTaskRequest;
