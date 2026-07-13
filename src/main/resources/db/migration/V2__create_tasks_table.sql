@@ -7,7 +7,7 @@ CREATE TABLE tasks (
    due_date TIMESTAMP,
    created_at TIMESTAMP NOT NULL,
    updated_at TIMESTAMP NOT NULL,
-   user_id UUID,
+   user_id UUID NOT NULL,
 
    CONSTRAINT fk_tasks_user
        FOREIGN KEY (user_id)

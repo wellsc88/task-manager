@@ -1,7 +1,7 @@
 package com.well.tech.task.manager.service;
 
 import com.well.tech.task.manager.common.exceptions.auth.EmailAlreadyExistsException;
-import com.well.tech.task.manager.dto.request.CreateUserRequest;
+import com.well.tech.task.manager.dto.request.UserRequest;
 import com.well.tech.task.manager.dto.response.UserResponse;
 import com.well.tech.task.manager.entity.User;
 import com.well.tech.task.manager.mapper.UserMapper;
@@ -18,7 +18,7 @@ public class UserService {
     private final UserMapper mapper;
     private final PasswordEncoder passwordEncoder;
 
-    public UserResponse create(CreateUserRequest request) {
+    public UserResponse create(UserRequest request) {
 
         if (repository.existsByEmail(request.email())) {
             throw new EmailAlreadyExistsException(

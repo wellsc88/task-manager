@@ -7,6 +7,7 @@ import com.well.tech.task.manager.entity.Task;
 import com.well.tech.task.manager.common.exceptions.resource.ResourceNotFoundException;
 import com.well.tech.task.manager.mapper.TaskMapper;
 import com.well.tech.task.manager.repository.TaskRepository;
+import com.well.tech.task.manager.security.AuthenticatedUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,17 +20,26 @@ public class TaskService {
 
     private final TaskRepository repository;
     private final TaskMapper mapper;
+    private final AuthenticatedUserService authenticatedUserService;
 
     public TaskResponse create(CreateTaskRequest request) {
 
         Task task = mapper.toEntity(request);
+
+        task.setUser(
+                authenticatedUserService.getCurrentUser()
+        );
 
         return mapper.toResponse(repository.save(task));
     }
 
     public List<TaskResponse> findAll() {
 
-        return repository.findAll()
+        UUID userId = authenticatedUserService
+                .getCurrentUser()
+                .getId();
+
+        return repository.findAllByUserId(userId)
                 .stream()
                 .map(mapper::toResponse)
                 .toList();
@@ -56,7 +66,15 @@ public class TaskService {
 
     private Task findTaskById(UUID id) {
 
-        return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Task not found with id: " + id));
+        UUID userId = authenticatedUserService
+                .getCurrentUser()
+                .getId();
+
+        return repository.findByIdAndUserId(id, userId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Task not found with id: " + id
+                        )
+                );
     }
 }

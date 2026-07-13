@@ -1,6 +1,6 @@
 package com.well.tech.task.manager.controller;
 
-import com.well.tech.task.manager.dto.request.CreateUserRequest;
+import com.well.tech.task.manager.dto.request.UserRequest;
 import com.well.tech.task.manager.dto.response.UserResponse;
 import com.well.tech.task.manager.service.UserService;
 import jakarta.validation.Valid;
@@ -18,7 +18,7 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponse create(
-            @Valid @RequestBody CreateUserRequest request) {
+            @Valid @RequestBody UserRequest request) {
 
         return service.create(request);
     }

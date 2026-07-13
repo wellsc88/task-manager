@@ -1,6 +1,6 @@
 package com.well.tech.task.manager.mapper;
 
-import com.well.tech.task.manager.dto.request.CreateUserRequest;
+import com.well.tech.task.manager.dto.request.UserRequest;
 import com.well.tech.task.manager.dto.response.UserResponse;
 import com.well.tech.task.manager.entity.User;
 import org.springframework.stereotype.Component;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
 
-    public User toEntity(CreateUserRequest request) {
+    public User toEntity(UserRequest request) {
 
         return User.builder()
                 .name(request.name())
