@@ -6,6 +6,7 @@ import com.well.tech.task.manager.common.dto.ApiError;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -28,6 +29,29 @@ public class GlobalExceptionHandler {
         );
 
         return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiError> handleValidationException(
+            MethodArgumentNotValidException ex,
+            HttpServletRequest request) {
+
+        String message = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                .toList()
+                .toString();
+
+        ApiError error = new ApiError(
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                message,
+                request.getRequestURI(),
+                Instant.now()
+        );
+
+        return ResponseEntity.badRequest().body(error);
     }
 
     @ExceptionHandler(Exception.class)
