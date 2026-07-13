@@ -1,6 +1,6 @@
 package com.well.tech.task.manager.dto.response;
 
-public record LoginResponse(
+public record AuthResponse(
         String accessToken,
         String refreshToken
 ) {

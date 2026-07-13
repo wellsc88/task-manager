@@ -1,7 +1,10 @@
 package com.well.tech.task.manager.service;
 
 import com.well.tech.task.manager.dto.request.LoginRequest;
+import com.well.tech.task.manager.dto.request.RefreshTokenRequest;
 import com.well.tech.task.manager.dto.response.LoginResponse;
+import com.well.tech.task.manager.dto.response.RefreshTokenResponse;
+import com.well.tech.task.manager.entity.RefreshToken;
 import com.well.tech.task.manager.entity.User;
 import com.well.tech.task.manager.repository.UserRepository;
 import com.well.tech.task.manager.security.JwtService;
@@ -17,7 +20,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserRepository repository;
     private final JwtService jwtService;
-
+    private final RefreshTokenService refreshTokenService;
 
     public LoginResponse login(LoginRequest request) {
 
@@ -28,17 +31,48 @@ public class AuthService {
                 )
         );
 
-
         User user = repository.findByEmail(request.email())
                 .orElseThrow();
 
+        String accessToken = jwtService.generateToken(
+                user.getId(),
+                user.getEmail()
+        );
 
-        String token = jwtService.generateToken(
+        RefreshToken refreshToken =
+                refreshTokenService.createOrUpdate(user);
+
+        return new LoginResponse(
+                accessToken,
+                refreshToken.getToken()
+        );
+    }
+
+    public RefreshTokenResponse refreshToken(
+            RefreshTokenRequest request
+    ) {
+
+        RefreshToken refreshToken =
+                refreshTokenService.findByToken(
+                        request.refreshToken()
+                );
+
+        refreshTokenService.verifyExpiration(
+                refreshToken
+        );
+
+
+        User user = refreshToken.getUser();
+
+
+        String accessToken = jwtService.generateToken(
                 user.getId(),
                 user.getEmail()
         );
 
 
-        return new LoginResponse(token);
+        return new RefreshTokenResponse(
+                accessToken
+        );
     }
 }
