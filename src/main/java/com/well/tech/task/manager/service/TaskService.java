@@ -1,11 +1,11 @@
 package com.well.tech.task.manager.service;
 
-import com.well.tech.task.manager.dto.request.task.CreateTaskRequest;
-import com.well.tech.task.manager.dto.request.task.UpdateTaskRequest;
-import com.well.tech.task.manager.dto.response.task.TaskResponse;
+import com.well.tech.task.manager.dto.request.CreateTaskRequest;
+import com.well.tech.task.manager.dto.request.UpdateTaskRequest;
+import com.well.tech.task.manager.dto.response.TaskResponse;
 import com.well.tech.task.manager.entity.Task;
 import com.well.tech.task.manager.common.exceptions.resource.ResourceNotFoundException;
-import com.well.tech.task.manager.mapper.task.TaskMapper;
+import com.well.tech.task.manager.mapper.TaskMapper;
 import com.well.tech.task.manager.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

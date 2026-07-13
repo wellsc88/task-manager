@@ -1,9 +1,9 @@
-package com.well.tech.task.manager.mapper.task;
+package com.well.tech.task.manager.mapper;
 
 import com.well.tech.task.manager.common.enums.TaskStatus;
-import com.well.tech.task.manager.dto.request.task.CreateTaskRequest;
-import com.well.tech.task.manager.dto.request.task.UpdateTaskRequest;
-import com.well.tech.task.manager.dto.response.task.TaskResponse;
+import com.well.tech.task.manager.dto.request.CreateTaskRequest;
+import com.well.tech.task.manager.dto.request.UpdateTaskRequest;
+import com.well.tech.task.manager.dto.response.TaskResponse;
 import com.well.tech.task.manager.entity.Task;
 import org.springframework.stereotype.Component;
 
