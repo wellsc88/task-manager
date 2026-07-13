@@ -1,4 +1,4 @@
-package com.well.tech.task.manager.dto.response.task;
+package com.well.tech.task.manager.dto.response;
 
 import com.well.tech.task.manager.common.enums.TaskPriority;
 import com.well.tech.task.manager.common.enums.TaskStatus;
