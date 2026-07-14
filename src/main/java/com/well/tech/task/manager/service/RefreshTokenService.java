@@ -4,6 +4,7 @@ import com.well.tech.task.manager.common.exceptions.resource.ResourceNotFoundExc
 import com.well.tech.task.manager.entity.RefreshToken;
 import com.well.tech.task.manager.entity.User;
 import com.well.tech.task.manager.repository.RefreshTokenRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,14 +21,12 @@ public class RefreshTokenService {
     @Value("${jwt.refresh-expiration}")
     private Long refreshExpiration;
 
-
     public RefreshToken createOrUpdate(User user) {
 
         return repository.findByUser(user)
                 .map(this::updateToken)
                 .orElseGet(() -> createToken(user));
     }
-
 
     private RefreshToken updateToken(RefreshToken refreshToken) {
 
@@ -43,7 +42,6 @@ public class RefreshTokenService {
         return repository.save(refreshToken);
     }
 
-
     private RefreshToken createToken(User user) {
 
         RefreshToken refreshToken = RefreshToken.builder()
@@ -58,7 +56,6 @@ public class RefreshTokenService {
         return repository.save(refreshToken);
     }
 
-
     public RefreshToken findByToken(String token) {
 
         return repository.findByToken(token)
@@ -69,13 +66,9 @@ public class RefreshTokenService {
                 );
     }
 
+    public void verifyExpiration(RefreshToken refreshToken) {
 
-    public RefreshToken verifyExpiration(
-            RefreshToken refreshToken
-    ) {
-
-        if (refreshToken.getExpiresAt()
-                .isBefore(Instant.now())) {
+        if (refreshToken.getExpiresAt().isBefore(Instant.now())) {
 
             repository.delete(refreshToken);
 
@@ -83,13 +76,11 @@ public class RefreshTokenService {
                     "Refresh token expired"
             );
         }
-
-        return refreshToken;
     }
 
-
-    public void deleteByUser(User user) {
-
-        repository.deleteByUser(user);
+    @Transactional
+    public void deleteByToken(String token) {
+        RefreshToken refreshToken = findByToken(token);
+        repository.delete(refreshToken);
     }
 }
