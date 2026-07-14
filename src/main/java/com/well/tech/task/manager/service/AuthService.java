@@ -8,6 +8,7 @@ import com.well.tech.task.manager.entity.RefreshToken;
 import com.well.tech.task.manager.entity.User;
 import com.well.tech.task.manager.repository.UserRepository;
 import com.well.tech.task.manager.security.JwtService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -74,5 +75,10 @@ public class AuthService {
         return new RefreshTokenResponse(
                 accessToken
         );
+    }
+
+    @Transactional
+    public void logout(String refreshToken) {
+        refreshTokenService.deleteByToken(refreshToken);
     }
 }

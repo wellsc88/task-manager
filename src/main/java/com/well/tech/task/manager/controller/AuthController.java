@@ -1,6 +1,7 @@
 package com.well.tech.task.manager.controller;
 
 import com.well.tech.task.manager.dto.request.LoginRequest;
+import com.well.tech.task.manager.dto.request.LogoutRequest;
 import com.well.tech.task.manager.dto.request.RefreshTokenRequest;
 import com.well.tech.task.manager.dto.response.LoginResponse;
 import com.well.tech.task.manager.dto.response.RefreshTokenResponse;
@@ -33,5 +34,14 @@ public class AuthController {
         return ResponseEntity.ok(
                 service.refreshToken(request)
         );
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(
+            @RequestBody LogoutRequest request) {
+
+        service.logout(request.refreshToken());
+
+        return ResponseEntity.noContent().build();
     }
 }
