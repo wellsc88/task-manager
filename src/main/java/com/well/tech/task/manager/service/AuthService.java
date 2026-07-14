@@ -1,5 +1,7 @@
 package com.well.tech.task.manager.service;
 
+import com.well.tech.task.manager.common.exceptions.auth.InvalidCredentialsException;
+import com.well.tech.task.manager.common.exceptions.auth.UserDisabledException;
 import com.well.tech.task.manager.dto.request.LoginRequest;
 import com.well.tech.task.manager.dto.request.RefreshTokenRequest;
 import com.well.tech.task.manager.dto.response.LoginResponse;
@@ -11,6 +13,8 @@ import com.well.tech.task.manager.security.JwtService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
@@ -25,12 +29,26 @@ public class AuthService {
 
     public LoginResponse login(LoginRequest request) {
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.email(),
-                        request.password()
-                )
-        );
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.email(),
+                            request.password()
+                    )
+            );
+
+        } catch (BadCredentialsException ex) {
+
+            throw new InvalidCredentialsException(
+                    "Invalid email or password"
+            );
+
+        } catch (DisabledException ex) {
+
+            throw new UserDisabledException(
+                    "User account is disabled"
+            );
+        }
 
         User user = repository.findByEmail(request.email())
                 .orElseThrow();
