@@ -38,11 +38,18 @@ public class SecurityConfig {
                                 "/api/auth/**",
                                 "/api/users"
                         ).permitAll()
+                        .requestMatchers(
+                                "/api/admin/**"
+                        ).hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(
                                 new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)
+                        )
+                        .accessDeniedHandler(
+                                (request, response, accessDeniedException) ->
+                                        response.setStatus(HttpStatus.FORBIDDEN.value())
                         )
                 )
                 .addFilterBefore(
