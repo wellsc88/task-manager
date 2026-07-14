@@ -1,5 +1,6 @@
 package com.well.tech.task.manager.mapper;
 
+import com.well.tech.task.manager.common.enums.Role;
 import com.well.tech.task.manager.dto.request.UserRequest;
 import com.well.tech.task.manager.dto.response.UserResponse;
 import com.well.tech.task.manager.entity.User;
@@ -14,6 +15,7 @@ public class UserMapper {
                 .name(request.name())
                 .email(request.email())
                 .password(request.password())
+                .role(Role.USER)
                 .build();
     }
 

@@ -1,6 +1,7 @@
 package com.well.tech.task.manager.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.well.tech.task.manager.common.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -47,4 +48,8 @@ public class User {
     )
     @Builder.Default
     private List<Task> tasks = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 }

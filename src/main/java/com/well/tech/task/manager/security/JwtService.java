@@ -1,5 +1,6 @@
 package com.well.tech.task.manager.security;
 
+import com.well.tech.task.manager.common.enums.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -28,11 +29,12 @@ public class JwtService {
     }
 
 
-    public String generateToken(UUID userId, String email) {
+    public String generateToken(UUID userId, String email, Role role) {
 
         return Jwts.builder()
                 .subject(userId.toString())
                 .claim("email", email)
+                .claim("role", role.name())
                 .issuedAt(new Date())
                 .expiration(
                         new Date(System.currentTimeMillis() + expiration)
