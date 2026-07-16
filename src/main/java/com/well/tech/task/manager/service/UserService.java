@@ -1,10 +1,13 @@
 package com.well.tech.task.manager.service;
 
 import com.well.tech.task.manager.common.exceptions.auth.EmailAlreadyExistsException;
+import com.well.tech.task.manager.common.exceptions.resource.ResourceNotFoundException;
 import com.well.tech.task.manager.dto.request.UserRequest;
 import com.well.tech.task.manager.dto.response.UserResponse;
+import com.well.tech.task.manager.entity.Role;
 import com.well.tech.task.manager.entity.User;
 import com.well.tech.task.manager.mapper.UserMapper;
+import com.well.tech.task.manager.repository.RoleRepository;
 import com.well.tech.task.manager.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository repository;
+    private final RoleRepository roleRepository;
     private final UserMapper mapper;
     private final PasswordEncoder passwordEncoder;
 
@@ -26,7 +30,13 @@ public class UserService {
             );
         }
 
+        Role role = roleRepository.findByName("USER")
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Role USER not found"));
+
         User user = mapper.toEntity(request);
+
+        user.setRole(role);
 
         user.setPassword(
                 passwordEncoder.encode(request.password())
