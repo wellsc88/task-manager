@@ -1,6 +1,7 @@
 package com.well.tech.task.manager.controller;
 
 import com.well.tech.task.manager.dto.request.CreateTaskRequest;
+import com.well.tech.task.manager.dto.request.TaskFilterRequest;
 import com.well.tech.task.manager.dto.request.UpdateTaskRequest;
 import com.well.tech.task.manager.dto.response.TaskResponse;
 import com.well.tech.task.manager.service.TaskService;
@@ -28,9 +29,10 @@ public class TaskController {
     }
 
     @GetMapping
-    public List<TaskResponse> findAll() {
+    public List<TaskResponse> findAll(
+            @ModelAttribute TaskFilterRequest filter) {
 
-        return taskService.findAll();
+        return taskService.findAll(filter);
     }
 
     @GetMapping("/{id}")
