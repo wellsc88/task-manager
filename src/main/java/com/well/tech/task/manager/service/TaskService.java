@@ -7,9 +7,12 @@ import com.well.tech.task.manager.entity.Task;
 import com.well.tech.task.manager.common.exceptions.resource.ResourceNotFoundException;
 import com.well.tech.task.manager.mapper.TaskMapper;
 import com.well.tech.task.manager.repository.TaskRepository;
+import com.well.tech.task.manager.repository.specification.TaskSpecification;
 import com.well.tech.task.manager.security.AuthenticatedUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import com.well.tech.task.manager.dto.request.TaskFilterRequest;
 
 import java.util.List;
 import java.util.UUID;
@@ -33,13 +36,16 @@ public class TaskService {
         return mapper.toResponse(repository.save(task));
     }
 
-    public List<TaskResponse> findAll() {
+    public List<TaskResponse> findAll(TaskFilterRequest filter) {
 
         UUID userId = authenticatedUserService
                 .getCurrentUser()
                 .getId();
 
-        return repository.findAllByUserId(userId)
+        Specification<Task> specification =
+                TaskSpecification.filter(filter, userId);
+
+        return repository.findAll(specification)
                 .stream()
                 .map(mapper::toResponse)
                 .toList();
