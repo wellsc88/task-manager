@@ -3,7 +3,7 @@ INSERT INTO users (
     name,
     email,
     password,
-    role,
+    role_id,
     enabled
 )
 VALUES (
@@ -11,6 +11,6 @@ VALUES (
    'Administrator',
    'admin@taskmanager.com',
    '$2y$10$mkTIwWGbKuKKz49MGb1hj.LdCzdy4c3CMAEhwdyiODFhmUbLj//Ji',
-   'ADMIN',
+   (SELECT id FROM roles WHERE name = 'ADMIN'),
    true
 );

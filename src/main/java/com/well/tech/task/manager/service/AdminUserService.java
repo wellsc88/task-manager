@@ -4,7 +4,9 @@ import com.well.tech.task.manager.common.exceptions.resource.ResourceNotFoundExc
 import com.well.tech.task.manager.dto.request.UpdateRoleRequest;
 import com.well.tech.task.manager.dto.request.UpdateStatusRequest;
 import com.well.tech.task.manager.dto.response.AdminUserResponse;
+import com.well.tech.task.manager.entity.Role;
 import com.well.tech.task.manager.entity.User;
+import com.well.tech.task.manager.repository.RoleRepository;
 import com.well.tech.task.manager.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import java.util.UUID;
 public class AdminUserService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     public List<AdminUserResponse> findAll() {
 
@@ -27,7 +30,7 @@ public class AdminUserService {
                     user.getId(),
                     user.getName(),
                     user.getEmail(),
-                    user.getRole(),
+                    user.getRole().getName(),
                     user.isEnabled()
             ))
             .toList();
@@ -46,7 +49,11 @@ public class AdminUserService {
                         )
                 );
 
-        user.setRole(request.role());
+        Role role = roleRepository.findByName(request.role())
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Role not found"));
+
+        user.setRole(role);
 
         userRepository.save(user);
     }

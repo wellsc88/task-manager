@@ -33,7 +33,7 @@ public class UserDetailsImpl implements UserDetails {
 
         return Collections.singletonList(
                 new SimpleGrantedAuthority(
-                        "ROLE_" + user.getRole().name()
+                        "ROLE_" + user.getRole().getName()
                 )
         );
     }

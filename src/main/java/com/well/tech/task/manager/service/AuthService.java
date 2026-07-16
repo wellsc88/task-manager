@@ -2,6 +2,7 @@ package com.well.tech.task.manager.service;
 
 import com.well.tech.task.manager.common.exceptions.auth.InvalidCredentialsException;
 import com.well.tech.task.manager.common.exceptions.auth.UserDisabledException;
+import com.well.tech.task.manager.common.exceptions.resource.ResourceNotFoundException;
 import com.well.tech.task.manager.dto.request.LoginRequest;
 import com.well.tech.task.manager.dto.request.RefreshTokenRequest;
 import com.well.tech.task.manager.dto.response.LoginResponse;
@@ -51,7 +52,9 @@ public class AuthService {
         }
 
         User user = repository.findByEmail(request.email())
-                .orElseThrow();
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User not found")
+                );
 
         String accessToken = jwtService.generateToken(
                 user.getId(),
