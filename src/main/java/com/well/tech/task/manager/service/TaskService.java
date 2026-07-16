@@ -13,8 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.well.tech.task.manager.dto.request.TaskFilterRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -36,7 +37,9 @@ public class TaskService {
         return mapper.toResponse(repository.save(task));
     }
 
-    public List<TaskResponse> findAll(TaskFilterRequest filter) {
+    public Page<TaskResponse> findAll(
+            TaskFilterRequest filter,
+            Pageable pageable) {
 
         UUID userId = authenticatedUserService
                 .getCurrentUser()
@@ -45,10 +48,11 @@ public class TaskService {
         Specification<Task> specification =
                 TaskSpecification.filter(filter, userId);
 
-        return repository.findAll(specification)
-                .stream()
-                .map(mapper::toResponse)
-                .toList();
+        return repository.findAll(
+                        specification,
+                        pageable
+                )
+                .map(mapper::toResponse);
     }
 
     public TaskResponse findById(UUID id) {
