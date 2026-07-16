@@ -3,14 +3,16 @@ package com.well.tech.task.manager.controller;
 import com.well.tech.task.manager.dto.request.CreateTaskRequest;
 import com.well.tech.task.manager.dto.request.TaskFilterRequest;
 import com.well.tech.task.manager.dto.request.UpdateTaskRequest;
+import com.well.tech.task.manager.dto.response.PageResponse;
 import com.well.tech.task.manager.dto.response.TaskResponse;
 import com.well.tech.task.manager.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -29,10 +31,14 @@ public class TaskController {
     }
 
     @GetMapping
-    public List<TaskResponse> findAll(
-            @ModelAttribute TaskFilterRequest filter) {
+    public PageResponse<TaskResponse> findAll(
+            TaskFilterRequest filter,
+            Pageable pageable) {
 
-        return taskService.findAll(filter);
+        Page<TaskResponse> tasks =
+                taskService.findAll(filter, pageable);
+
+        return PageResponse.from(tasks);
     }
 
     @GetMapping("/{id}")
