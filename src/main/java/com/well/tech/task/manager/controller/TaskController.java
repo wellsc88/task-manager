@@ -1,6 +1,5 @@
 package com.well.tech.task.manager.controller;
 
-
 import com.well.tech.task.manager.dto.request.CreateTaskRequest;
 import com.well.tech.task.manager.dto.request.UpdateTaskRequest;
 import com.well.tech.task.manager.dto.response.TaskResponse;
@@ -18,40 +17,42 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TaskController {
 
-    private final TaskService service;
+    private final TaskService taskService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public TaskResponse create(
             @Valid @RequestBody CreateTaskRequest request) {
 
-        return service.create(request);
+        return taskService.create(request);
     }
 
     @GetMapping
     public List<TaskResponse> findAll() {
 
-        return service.findAll();
+        return taskService.findAll();
     }
 
     @GetMapping("/{id}")
-    public TaskResponse findById(@PathVariable UUID id) {
+    public TaskResponse findById(
+            @PathVariable UUID id) {
 
-        return service.findById(id);
+        return taskService.findById(id);
     }
 
-    @PutMapping("/{id}")
-    public TaskResponse update(
+    @PatchMapping("/{id}")
+    public TaskResponse patch(
             @PathVariable UUID id,
             @Valid @RequestBody UpdateTaskRequest request) {
 
-        return service.update(id, request);
+        return taskService.update(id, request);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable UUID id) {
+    public void delete(
+            @PathVariable UUID id) {
 
-        service.delete(id);
+        taskService.delete(id);
     }
 }
