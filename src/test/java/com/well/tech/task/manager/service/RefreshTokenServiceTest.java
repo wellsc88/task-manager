@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.lang.reflect.Field;
 import java.time.Instant;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -32,7 +33,11 @@ class RefreshTokenServiceTest {
     @BeforeEach
     void setup() throws Exception {
 
-        user = new User();
+        user = User.builder()
+                .id(UUID.randomUUID())
+                .name("Test User")
+                .email("test@test.com")
+                .build();
 
         Field field =
                 RefreshTokenService.class
@@ -74,6 +79,7 @@ class RefreshTokenServiceTest {
 
         RefreshToken token = new RefreshToken();
 
+        token.setUser(user);
         token.setToken("old-token");
 
         when(repository.findByUser(user))
@@ -101,6 +107,8 @@ class RefreshTokenServiceTest {
 
         RefreshToken token =
                 new RefreshToken();
+
+        token.setUser(user);
 
         when(repository.findByToken("abc"))
                 .thenReturn(Optional.of(token));
@@ -134,6 +142,8 @@ class RefreshTokenServiceTest {
         RefreshToken token =
                 new RefreshToken();
 
+        token.setUser(user);
+
         token.setExpiresAt(
                 Instant.now().minusSeconds(10)
         );
@@ -154,6 +164,8 @@ class RefreshTokenServiceTest {
         RefreshToken token =
                 new RefreshToken();
 
+        token.setUser(user);
+
         token.setExpiresAt(
                 Instant.now().plusSeconds(1000)
         );
@@ -169,6 +181,8 @@ class RefreshTokenServiceTest {
 
         RefreshToken token =
                 new RefreshToken();
+
+        token.setUser(user);
 
         when(repository.findByToken("abc"))
                 .thenReturn(Optional.of(token));

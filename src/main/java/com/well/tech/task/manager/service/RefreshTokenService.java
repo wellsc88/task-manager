@@ -6,6 +6,7 @@ import com.well.tech.task.manager.entity.User;
 import com.well.tech.task.manager.repository.RefreshTokenRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class RefreshTokenService {
 
     private final RefreshTokenRepository repository;
@@ -23,12 +25,22 @@ public class RefreshTokenService {
 
     public RefreshToken createOrUpdate(User user) {
 
+        log.info(
+                "Creating or updating refresh token. UserId={}",
+                user.getId()
+        );
+
         return repository.findByUser(user)
                 .map(this::updateToken)
                 .orElseGet(() -> createToken(user));
     }
 
     private RefreshToken updateToken(RefreshToken refreshToken) {
+
+        log.info(
+                "Updating refresh token. UserId={}",
+                refreshToken.getUser().getId()
+        );
 
         refreshToken.setToken(
                 UUID.randomUUID().toString()
@@ -44,6 +56,11 @@ public class RefreshTokenService {
 
     private RefreshToken createToken(User user) {
 
+        log.info(
+                "Creating new refresh token. UserId={}",
+                user.getId()
+        );
+
         RefreshToken refreshToken = RefreshToken.builder()
                 .token(UUID.randomUUID().toString())
                 .user(user)
@@ -58,17 +75,29 @@ public class RefreshTokenService {
 
     public RefreshToken findByToken(String token) {
 
+        log.debug("Searching refresh token");
+
         return repository.findByToken(token)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Refresh token not found"
-                        )
-                );
+                .orElseThrow(() -> {
+
+                    log.warn(
+                            "Refresh token not found"
+                    );
+
+                    return new ResourceNotFoundException(
+                            "Refresh token not found"
+                    );
+                });
     }
 
     public void verifyExpiration(RefreshToken refreshToken) {
 
         if (refreshToken.getExpiresAt().isBefore(Instant.now())) {
+
+            log.warn(
+                    "Expired refresh token. UserId={}",
+                    refreshToken.getUser().getId()
+            );
 
             repository.delete(refreshToken);
 
@@ -80,7 +109,16 @@ public class RefreshTokenService {
 
     @Transactional
     public void deleteByToken(String token) {
+
+        log.info("Deleting refresh token");
+
         RefreshToken refreshToken = findByToken(token);
+
         repository.delete(refreshToken);
+
+        log.info(
+                "Refresh token deleted. UserId={}",
+                refreshToken.getUser().getId()
+        );
     }
 }
