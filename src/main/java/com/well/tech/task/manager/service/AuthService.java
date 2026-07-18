@@ -17,6 +17,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,6 +32,7 @@ public class AuthService {
     public LoginResponse login(LoginRequest request) {
 
         try {
+
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             request.email(),
@@ -48,6 +50,12 @@ public class AuthService {
 
             throw new UserDisabledException(
                     "User account is disabled"
+            );
+
+        } catch (AuthenticationException ex) {
+
+            throw new InvalidCredentialsException(
+                    "Authentication failed"
             );
         }
 
@@ -84,7 +92,6 @@ public class AuthService {
                 refreshToken
         );
 
-
         User user = refreshToken.getUser();
 
         String accessToken = jwtService.generateToken(
@@ -92,7 +99,6 @@ public class AuthService {
                 user.getEmail(),
                 user.getRole()
         );
-
 
         return new RefreshTokenResponse(
                 accessToken
