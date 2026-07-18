@@ -9,17 +9,19 @@ import com.well.tech.task.manager.mapper.TaskMapper;
 import com.well.tech.task.manager.repository.TaskRepository;
 import com.well.tech.task.manager.repository.specification.TaskSpecification;
 import com.well.tech.task.manager.security.AuthenticatedUserService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
 import com.well.tech.task.manager.dto.request.TaskFilterRequest;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TaskService {
 
     private final TaskRepository repository;
@@ -28,13 +30,33 @@ public class TaskService {
 
     public TaskResponse create(CreateTaskRequest request) {
 
+        UUID userId =
+                authenticatedUserService
+                        .getCurrentUser()
+                        .getId();
+
+        log.info(
+                "Creating task. UserId={}, Title={}",
+                userId,
+                request.title()
+        );
+
         Task task = mapper.toEntity(request);
 
         task.setUser(
                 authenticatedUserService.getCurrentUser()
         );
 
-        return mapper.toResponse(repository.save(task));
+        Task saved =
+                repository.save(task);
+
+        log.info(
+                "Task created successfully. TaskId={}, UserId={}",
+                saved.getId(),
+                userId
+        );
+
+        return mapper.toResponse(saved);
     }
 
     public Page<TaskResponse> findAll(
@@ -45,33 +67,81 @@ public class TaskService {
                 .getCurrentUser()
                 .getId();
 
+        log.info(
+                "Finding tasks. UserId={}, Page={}, Size={}",
+                userId,
+                pageable.getPageNumber(),
+                pageable.getPageSize()
+        );
+
         Specification<Task> specification =
                 TaskSpecification.filter(filter, userId);
 
-        return repository.findAll(
-                        specification,
-                        pageable
-                )
-                .map(mapper::toResponse);
+        Page<TaskResponse> response =
+                repository.findAll(
+                                specification,
+                                pageable
+                        )
+                        .map(mapper::toResponse);
+
+        log.info(
+                "Tasks found successfully. UserId={}, Count={}",
+                userId,
+                response.getTotalElements()
+        );
+
+        return response;
     }
 
     public TaskResponse findById(UUID id) {
 
+        log.info(
+                "Finding task by id. TaskId={}",
+                id
+        );
+
         return mapper.toResponse(findTaskById(id));
     }
 
-    public TaskResponse update(UUID id, UpdateTaskRequest request) {
+    public TaskResponse update(
+            UUID id,
+            UpdateTaskRequest request) {
+
+        log.info(
+                "Updating task. TaskId={}",
+                id
+        );
 
         Task task = findTaskById(id);
 
         mapper.updateEntity(task, request);
 
-        return mapper.toResponse(repository.save(task));
+        Task updated =
+                repository.save(task);
+
+        log.info(
+                "Task updated successfully. TaskId={}",
+                updated.getId()
+        );
+
+        return mapper.toResponse(updated);
     }
 
     public void delete(UUID id) {
 
-        repository.delete(findTaskById(id));
+        log.info(
+                "Deleting task. TaskId={}",
+                id
+        );
+
+        Task task = findTaskById(id);
+
+        repository.delete(task);
+
+        log.info(
+                "Task deleted successfully. TaskId={}",
+                id
+        );
     }
 
     private Task findTaskById(UUID id) {
@@ -81,10 +151,17 @@ public class TaskService {
                 .getId();
 
         return repository.findByIdAndUserId(id, userId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Task not found with id: " + id
-                        )
-                );
+                .orElseThrow(() -> {
+
+                    log.warn(
+                            "Task not found. TaskId={}, UserId={}",
+                            id,
+                            userId
+                    );
+
+                    return new ResourceNotFoundException(
+                            "Task not found with id: " + id
+                    );
+                });
     }
 }

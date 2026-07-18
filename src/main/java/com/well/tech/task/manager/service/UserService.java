@@ -10,11 +10,13 @@ import com.well.tech.task.manager.mapper.UserMapper;
 import com.well.tech.task.manager.repository.RoleRepository;
 import com.well.tech.task.manager.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
 
     private final UserRepository repository;
@@ -24,15 +26,34 @@ public class UserService {
 
     public UserResponse create(UserRequest request) {
 
+        log.info(
+                "Creating user. Email={}",
+                request.email()
+        );
+
         if (repository.existsByEmail(request.email())) {
+
+            log.warn(
+                    "User creation failed. Email already exists. Email={}",
+                    request.email()
+            );
+
             throw new EmailAlreadyExistsException(
                     "Email already registered"
             );
         }
 
         Role role = roleRepository.findByName("USER")
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Role USER not found"));
+                .orElseThrow(() -> {
+
+                    log.error(
+                            "Default USER role not found"
+                    );
+
+                    return new ResourceNotFoundException(
+                            "Role USER not found"
+                    );
+                });
 
         User user = mapper.toEntity(request);
 
@@ -42,6 +63,15 @@ public class UserService {
                 passwordEncoder.encode(request.password())
         );
 
-        return mapper.toResponse(repository.save(user));
+        User saved =
+                repository.save(user);
+
+        log.info(
+                "User created successfully. UserId={}, Email={}",
+                saved.getId(),
+                saved.getEmail()
+        );
+
+        return mapper.toResponse(saved);
     }
 }
