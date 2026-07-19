@@ -66,6 +66,11 @@ services:
           - "--config.file=/etc/prometheus/prometheus.yaml"
     volumes:
       - ./prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml
+      - ./prometheus/alerts.yaml:/etc/prometheus/alerts.yaml
+    depends_on:
+      - api
+      - postgres-exporter
+      - alertmanager
 
   grafana:
     image: grafana/grafana:latest
@@ -81,6 +86,17 @@ services:
       - ./grafana/dashboards:/var/lib/grafana/dashboards
     depends_on:
       - prometheus
+
+  alertmanager:
+      image: prom/alertmanager:latest
+      container_name: task-manager-alertmanager
+      restart: unless-stopped
+      ports:
+        - "9093:9093"
+      command:
+        - "--config.file=/etc/alertmanager/alertmanager.yaml"
+      volumes:
+        - ./alertmanager/alertmanager.yaml:/etc/alertmanager/alertmanager.yaml
 
 volumes:
   postgres_data:
