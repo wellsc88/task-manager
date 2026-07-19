@@ -13,7 +13,6 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: task-manager-pgadmin
@@ -45,6 +44,32 @@ services:
 
     depends_on:
       - postgres
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: task-manager-prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    command:
+          - "--config.file=/etc/prometheus/prometheus.yaml"
+    volumes:
+      - ./prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: task-manager-grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    depends_on:
+      - prometheus
 
 volumes:
   postgres_data:
