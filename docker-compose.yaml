@@ -11,7 +11,7 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/
+      - postgres_data:/var/lib/postgresql/data
 
   postgres-exporter:
     image: prometheuscommunity/postgres-exporter:latest
@@ -53,6 +53,8 @@ services:
       JWT_EXPIRATION: ${JWT_EXPIRATION}
       JWT_REFRESH_EXPIRATION: ${JWT_REFRESH_EXPIRATION}
 
+      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: health,info,prometheus
+
     depends_on:
       - postgres
 
@@ -63,10 +65,12 @@ services:
     ports:
       - "9090:9090"
     command:
-          - "--config.file=/etc/prometheus/prometheus.yaml"
+      - "--config.file=/etc/prometheus/prometheus.yaml"
+      - "--storage.tsdb.retention.time=15d"
     volumes:
       - ./prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml
       - ./prometheus/alerts.yaml:/etc/prometheus/alerts.yaml
+      - prometheus_data:/prometheus
     depends_on:
       - api
       - postgres-exporter
@@ -78,25 +82,74 @@ services:
     restart: unless-stopped
     ports:
       - "3000:3000"
+
     environment:
       GF_SECURITY_ADMIN_USER: admin
       GF_SECURITY_ADMIN_PASSWORD: admin
+
     volumes:
+      - grafana_data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning
       - ./grafana/dashboards:/var/lib/grafana/dashboards
+
     depends_on:
-      - prometheus
+      prometheus:
+        condition: service_started
+      loki:
+        condition: service_healthy
 
   alertmanager:
-      image: prom/alertmanager:latest
-      container_name: task-manager-alertmanager
-      restart: unless-stopped
-      ports:
-        - "9093:9093"
-      command:
-        - "--config.file=/etc/alertmanager/alertmanager.yaml"
-      volumes:
-        - ./alertmanager/alertmanager.yaml:/etc/alertmanager/alertmanager.yaml
+    image: prom/alertmanager:latest
+    container_name: task-manager-alertmanager
+    restart: unless-stopped
+    ports:
+      - "9093:9093"
+
+    command:
+      - "--config.file=/etc/alertmanager/alertmanager.yaml"
+
+    volumes:
+      - ./alertmanager/alertmanager.yaml:/etc/alertmanager/alertmanager.yaml
+
+  loki:
+    image: grafana/loki:3.0.0
+    container_name: task-manager-loki
+    restart: unless-stopped
+
+    ports:
+      - "3100:3100"
+
+    command:
+      - "-config.file=/etc/loki/config.yaml"
+
+    volumes:
+      - ./loki/config.yaml:/etc/loki/config.yaml
+      - loki_data:/loki
+
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3100/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  promtail:
+    image: grafana/promtail:3.0.0
+    container_name: task-manager-promtail
+    restart: unless-stopped
+
+    command:
+      - "-config.file=/etc/promtail/config.yaml"
+
+    volumes:
+      - ./promtail/config.yaml:/etc/promtail/config.yaml
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+    depends_on:
+      - loki
 
 volumes:
   postgres_data:
+  loki_data:
+  grafana_data:
+  prometheus_data:
