@@ -28,6 +28,64 @@ The project demonstrates authentication with JWT, automated database migrations,
 
 ---
 
+# 🏗 Architecture
+
+The application follows a layered architecture based on Spring Boot best practices, with a clear separation of responsibilities between layers.
+
+```text
+┌─────────────┐
+│ Controller  │
+└──────┬──────┘
+       │
+┌──────▼──────┐
+│   Service   │
+└──────┬──────┘
+       │
+┌──────▼──────┐
+│ Repository  │
+└──────┬──────┘
+       │
+┌──────▼──────┐
+│ PostgreSQL  │
+└─────────────┘
+```
+
+### Project modules
+
+```text
+common       → Shared components, exceptions and enums
+config       → Application configuration
+controller   → REST API endpoints
+dto          → Request and response models
+entity       → JPA entities
+mapper       → Entity and DTO mapping
+repository   → Data access layer
+security     → Authentication and authorization (JWT)
+service      → Business logic
+```
+
+---
+
+# 🔐 Authentication
+
+The API uses JWT authentication.
+
+Authentication flow:
+
+1. User registers
+2. User authenticates
+3. API generates Access Token and Refresh Token
+4. Refresh Token allows session renewal
+
+Security features:
+
+* JWT authentication
+* Role-based authorization
+* Protected endpoints
+* Global security exception handling
+
+---
+
 # 🛠 Tech Stack
 
 | Category          | Technology                  |
@@ -54,22 +112,76 @@ The project demonstrates authentication with JWT, automated database migrations,
 # 📂 Project Structure
 
 ```text
-src
-├── common
-│   ├── enums
-│   └── exceptions
-├── config
-├── controller
-├── dto
-│   ├── request
-│   └── response
-├── entity
-├── mapper
-├── repository
-│   └── specification
-├── security
-├── service
+.
+├── alertmanager
+│   └── alertmanager.yaml
+├── grafana
+│   ├── dashboards
+│   └── provisioning
+├── loki
+│   └── config.yaml
+├── prometheus
+│   ├── alerts.yaml
+│   └── prometheus.yaml
+├── promtail
+│   └── config.yaml
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── com
+│   │   │       └── well
+│   │   │           └── tech
+│   │   │               └── task
+│   │   │                   └── manager
+│   │   │                       ├── common
+│   │   │                       │   ├── enums
+│   │   │                       │   └── exceptions
+│   │   │                       ├── config
+│   │   │                       ├── controller
+│   │   │                       ├── dto
+│   │   │                       │   ├── request
+│   │   │                       │   └── response
+│   │   │                       ├── entity
+│   │   │                       ├── mapper
+│   │   │                       ├── repository
+│   │   │                       │   └── specification
+│   │   │                       ├── security
+│   │   │                       └── service
+│   │   └── resources
+│   │       ├── db
+│   │       │   └── migration
+│   │       ├── application.yml
+│   │       └── ...
+│   └── test
+├── .env.example
+├── .gitignore
+├── docker-compose.yaml
+├── Dockerfile
+├── mvnw
+├── mvnw.cmd
+├── pom.xml
+└── README.md
 ```
+
+### Infrastructure
+
+- **alertmanager/** → Alert routing configuration
+- **prometheus/** → Metrics collection and alert rules
+- **grafana/** → Dashboards and provisioning
+- **loki/** → Centralized logging configuration
+- **promtail/** → Log collection configuration
+
+### Application
+
+- **common/** → Shared components, enums and exceptions
+- **config/** → Spring Boot configuration
+- **controller/** → REST API endpoints
+- **dto/** → Request and response models
+- **entity/** → JPA entities
+- **mapper/** → Entity ↔ DTO mapping
+- **repository/** → Data access layer
+- **security/** → JWT authentication and authorization
+- **service/** → Business logic
 
 ---
 
@@ -140,14 +252,6 @@ GitHub Actions automatically:
 
 # 📌 Project Status
 
-✅ Stable and actively maintained
+✅ Completed
 
-Roadmap:
-
-* Authentication
-* Docker
-* Monitoring
-* Centralized Logging
-* CI/CD
-* Test Coverage
-* Future enhancements
+The project has reached its planned scope and is considered feature-complete. Future updates will focus on maintenance, performance improvements, and new features as needed.
