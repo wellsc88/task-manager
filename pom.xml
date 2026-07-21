@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.well.tech</groupId>
-    <artifactId>task-manager</artifactId>
+    <artifactId>task-manager-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>task-manager-api</name>
     <description>Task Management REST API</description>

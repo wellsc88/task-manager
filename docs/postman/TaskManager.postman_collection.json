@@ -1,0 +1,1253 @@
+{
+    "info": {
+        "name": "TaskManager",
+        "_postman_id": "e158ff25-fff2-4caf-9efa-b2b4fda08631",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Admin",
+            "event": [
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                            ""
+                        ]
+                    }
+                },
+                {
+                    "listen": "test",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                            ""
+                        ]
+                    }
+                }
+            ],
+            "item": [
+                {
+                    "name": "Get Users",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        },
+                        {
+                            "listen": "prerequest",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "url": {
+                            "raw": "http://localhost:8000/api/admin/users",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "api",
+                                "admin",
+                                "users"
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{bearer-token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [],
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    }
+                },
+                {
+                    "name": "Update Status",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        },
+                        {
+                            "listen": "prerequest",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "url": {
+                            "raw": "http://localhost:8000/api/admin/users/bcba38dd-2137-48b4-ad61-300b915d1401/status",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "api",
+                                "admin",
+                                "users",
+                                "bcba38dd-2137-48b4-ad61-300b915d1401",
+                                "status"
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"enabled\": false\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{bearer-token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [],
+                    "protocolProfileBehavior": {}
+                },
+                {
+                    "name": "Update Role",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        },
+                        {
+                            "listen": "prerequest",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "url": {
+                            "raw": "http://localhost:8000/api/admin/users/bcba38dd-2137-48b4-ad61-300b915d1401/role",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "api",
+                                "admin",
+                                "users",
+                                "bcba38dd-2137-48b4-ad61-300b915d1401",
+                                "role"
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"role\": \"ADMIN\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{bearer-token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [],
+                    "protocolProfileBehavior": {}
+                }
+            ]
+        },
+        {
+            "name": "Login",
+            "event": [
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                            ""
+                        ]
+                    }
+                },
+                {
+                    "listen": "test",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                            ""
+                        ]
+                    }
+                }
+            ],
+            "item": [
+                {
+                    "name": "Login",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        },
+                        {
+                            "listen": "prerequest",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "url": {
+                            "raw": "http://localhost:8000/api/auth/login",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "api",
+                                "auth",
+                                "login"
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"email\": \"test@taskmanager.com\",\r\n  \"password\": \"12345678\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [],
+                    "protocolProfileBehavior": {}
+                },
+                {
+                    "name": "Refresh Token",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        },
+                        {
+                            "listen": "prerequest",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "url": {
+                            "raw": "http://localhost:8000/api/auth/refresh",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "api",
+                                "auth",
+                                "refresh"
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"refreshToken\": \"33f71759-da78-4f26-8f04-673efff3650e\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{bearer-token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [],
+                    "protocolProfileBehavior": {}
+                },
+                {
+                    "name": "Logout",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        },
+                        {
+                            "listen": "prerequest",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "url": {
+                            "raw": "http://localhost:8000/api/auth/logout",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "api",
+                                "auth",
+                                "logout"
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"refreshToken\": \"33f71759-da78-4f26-8f04-673efff3650e\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{bearer-token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [],
+                    "protocolProfileBehavior": {}
+                }
+            ]
+        },
+        {
+            "name": "Task",
+            "event": [
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                            ""
+                        ]
+                    }
+                },
+                {
+                    "listen": "test",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                            ""
+                        ]
+                    }
+                }
+            ],
+            "item": [
+                {
+                    "name": "Filter",
+                    "event": [
+                        {
+                            "listen": "prerequest",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        },
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        }
+                    ],
+                    "item": [
+                        {
+                            "name": "Get Tasks by Status",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "type": "text/javascript",
+                                        "exec": [
+                                            ""
+                                        ]
+                                    }
+                                },
+                                {
+                                    "listen": "prerequest",
+                                    "script": {
+                                        "type": "text/javascript",
+                                        "exec": [
+                                            ""
+                                        ]
+                                    }
+                                }
+                            ],
+                            "request": {
+                                "url": {
+                                    "raw": "http://localhost:8000/api/tasks?status=PENDING",
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8000",
+                                    "path": [
+                                        "api",
+                                        "tasks"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "status",
+                                            "value": "PENDING"
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [],
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{bearer-token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            },
+                            "response": [],
+                            "protocolProfileBehavior": {}
+                        },
+                        {
+                            "name": "Get Tasks by Priority",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "type": "text/javascript",
+                                        "exec": [
+                                            ""
+                                        ]
+                                    }
+                                },
+                                {
+                                    "listen": "prerequest",
+                                    "script": {
+                                        "type": "text/javascript",
+                                        "exec": [
+                                            ""
+                                        ]
+                                    }
+                                }
+                            ],
+                            "request": {
+                                "url": {
+                                    "raw": "http://localhost:8000/api/tasks?priority=HIGH",
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8000",
+                                    "path": [
+                                        "api",
+                                        "tasks"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "priority",
+                                            "value": "HIGH"
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [],
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{bearer-token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            },
+                            "response": [],
+                            "protocolProfileBehavior": {}
+                        },
+                        {
+                            "name": "Get Tasks by Title",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "type": "text/javascript",
+                                        "exec": [
+                                            ""
+                                        ]
+                                    }
+                                },
+                                {
+                                    "listen": "prerequest",
+                                    "script": {
+                                        "type": "text/javascript",
+                                        "exec": [
+                                            ""
+                                        ]
+                                    }
+                                }
+                            ],
+                            "request": {
+                                "url": {
+                                    "raw": "http://localhost:8000/api/tasks?title=Task",
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8000",
+                                    "path": [
+                                        "api",
+                                        "tasks"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "title",
+                                            "value": "Task"
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [],
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{bearer-token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            },
+                            "response": [],
+                            "protocolProfileBehavior": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "Filter + Pagination",
+                    "event": [
+                        {
+                            "listen": "prerequest",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        },
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        }
+                    ],
+                    "item": [
+                        {
+                            "name": "Get Tasks by Status",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "type": "text/javascript",
+                                        "exec": [
+                                            ""
+                                        ]
+                                    }
+                                },
+                                {
+                                    "listen": "prerequest",
+                                    "script": {
+                                        "type": "text/javascript",
+                                        "exec": [
+                                            ""
+                                        ]
+                                    }
+                                }
+                            ],
+                            "request": {
+                                "url": {
+                                    "raw": "http://localhost:8000/api/tasks?status=PENDING&page=0&size=5",
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8000",
+                                    "path": [
+                                        "api",
+                                        "tasks"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "status",
+                                            "value": "PENDING"
+                                        },
+                                        {
+                                            "key": "page",
+                                            "value": "0"
+                                        },
+                                        {
+                                            "key": "size",
+                                            "value": "5"
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [],
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{bearer-token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            },
+                            "response": [],
+                            "protocolProfileBehavior": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "Pagination",
+                    "event": [
+                        {
+                            "listen": "prerequest",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        },
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        }
+                    ],
+                    "item": [
+                        {
+                            "name": "Get Tasks with Pagination",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "type": "text/javascript",
+                                        "exec": [
+                                            ""
+                                        ]
+                                    }
+                                },
+                                {
+                                    "listen": "prerequest",
+                                    "script": {
+                                        "type": "text/javascript",
+                                        "exec": [
+                                            ""
+                                        ]
+                                    }
+                                }
+                            ],
+                            "request": {
+                                "url": {
+                                    "raw": "http://localhost:8000/api/tasks?page=0&size=5",
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8000",
+                                    "path": [
+                                        "api",
+                                        "tasks"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "page",
+                                            "value": "0"
+                                        },
+                                        {
+                                            "key": "size",
+                                            "value": "5"
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [],
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{bearer-token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            },
+                            "response": [],
+                            "protocolProfileBehavior": {}
+                        },
+                        {
+                            "name": "Get Tasks with max size",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "type": "text/javascript",
+                                        "exec": [
+                                            ""
+                                        ]
+                                    }
+                                },
+                                {
+                                    "listen": "prerequest",
+                                    "script": {
+                                        "type": "text/javascript",
+                                        "exec": [
+                                            ""
+                                        ]
+                                    }
+                                }
+                            ],
+                            "request": {
+                                "url": {
+                                    "raw": "http://localhost:8000/api/tasks?size=999999",
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8000",
+                                    "path": [
+                                        "api",
+                                        "tasks"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "size",
+                                            "value": "999999"
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [],
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{bearer-token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            },
+                            "response": [],
+                            "protocolProfileBehavior": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "Create Task",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        },
+                        {
+                            "listen": "prerequest",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "url": {
+                            "raw": "http://localhost:8000/api/tasks",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "api",
+                                "tasks"
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"title\": \"Start Task Manager\",\r\n  \"description\": \"Implement CRUD endpoints\",\r\n  \"priority\": \"HIGH\",\r\n  \"dueDate\": \"2026-07-20T18:00:00\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{bearer-token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [],
+                    "protocolProfileBehavior": {}
+                },
+                {
+                    "name": "Get Tasks",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        },
+                        {
+                            "listen": "prerequest",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "url": {
+                            "raw": "http://localhost:8000/api/tasks",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "api",
+                                "tasks"
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{bearer-token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [],
+                    "protocolProfileBehavior": {}
+                },
+                {
+                    "name": "Get Task by ID",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        },
+                        {
+                            "listen": "prerequest",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "url": {
+                            "raw": "http://localhost:8000/api/tasks/7a9dd58d-d5d0-4aa3-a579-f1d0051907fd",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "api",
+                                "tasks",
+                                "7a9dd58d-d5d0-4aa3-a579-f1d0051907fd"
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{bearer-token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [],
+                    "protocolProfileBehavior": {}
+                },
+                {
+                    "name": "Update Task",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        },
+                        {
+                            "listen": "prerequest",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "url": {
+                            "raw": "http://localhost:8000/api/tasks/7a9dd58d-d5d0-4aa3-a579-f1d0051907fd",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "api",
+                                "tasks",
+                                "7a9dd58d-d5d0-4aa3-a579-f1d0051907fd"
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"title\": \"Finish Task Manager API\",\r\n  \"description\": \"CRUD completed\",\r\n  \"priority\": \"MEDIUM\",\r\n  \"status\": \"IN_PROGRESS\",\r\n  \"dueDate\": \"2026-07-22T12:00:00\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{bearer-token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [],
+                    "protocolProfileBehavior": {}
+                },
+                {
+                    "name": "Delete Task",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        },
+                        {
+                            "listen": "prerequest",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "url": {
+                            "raw": "http://localhost:8000/api/tasks/7a9dd58d-d5d0-4aa3-a579-f1d0051907fd",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "api",
+                                "tasks",
+                                "7a9dd58d-d5d0-4aa3-a579-f1d0051907fd"
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [],
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{bearer-token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [],
+                    "protocolProfileBehavior": {}
+                }
+            ]
+        },
+        {
+            "name": "User",
+            "event": [
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                            ""
+                        ]
+                    }
+                },
+                {
+                    "listen": "test",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                            ""
+                        ]
+                    }
+                }
+            ],
+            "item": [
+                {
+                    "name": "Create User",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        },
+                        {
+                            "listen": "prerequest",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    ""
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "url": {
+                            "raw": "http://localhost:8000/api/users",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "api",
+                                "users"
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"name\": \"Wellington\",\r\n  \"email\": \"well@taskmanager.com\",\r\n  \"password\": \"12345678\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [],
+                    "protocolProfileBehavior": {}
+                }
+            ]
+        }
+    ],
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        },
+        {
+            "listen": "test",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        }
+    ],
+    "variable": []
+}
